@@ -2,39 +2,6 @@
 # Author: Mojtaba Sayyad Mahernia
 
 
-set.seed(42)
-
-if (!dir.exists("output")) {
-  dir.create("output")
-}
-
-calculate_effect_size <- function(model) {
-  r2_marginal <- MuMIn::r.squaredGLMM(model)[1]
-  r2_conditional <- MuMIn::r.squaredGLMM(model)[2]
-  
-  return(list(
-    marginal_r2 = r2_marginal,
-    conditional_r2 = r2_conditional
-  ))
-}
-
-format_p <- function(p) {
-  ifelse(p < 0.001, "< 0.001", 
-         ifelse(p < 0.01, sprintf("= %.3f", p),
-                sprintf("= %.2f", p)))
-}
-
-create_results_text <- function(model_anova, effect_name) {
-  f_stat <- model_anova$`F value`[1]
-  df1 <- model_anova$NumDF[1]
-  df2 <- round(model_anova$DenDF[1], 1)
-  p_val <- model_anova$`Pr(>F)`[1]
-  
-  sprintf("%s: F(%d, %.1f) = %.2f, p %s", 
-          effect_name, df1, df2, f_stat, format_p(p_val))
-}
-
-# DATA LOADING AND PREPARATIO
 
 data <- read.csv("final1.csv")
 
@@ -186,6 +153,40 @@ print(chi_process)
 cramers_v_process <- sqrt(chi_process$statistic / (total_process_pauses * (nrow(process_counts) - 1)))
 write.csv(syntactic_counts, "output/syntactic_frequency_analysis.csv", row.names = FALSE)
 write.csv(process_counts, "output/process_frequency_analysis.csv", row.names = FALSE)
+
+set.seed(42)
+
+if (!dir.exists("output")) {
+  dir.create("output")
+}
+
+calculate_effect_size <- function(model) {
+  r2_marginal <- MuMIn::r.squaredGLMM(model)[1]
+  r2_conditional <- MuMIn::r.squaredGLMM(model)[2]
+  
+  return(list(
+    marginal_r2 = r2_marginal,
+    conditional_r2 = r2_conditional
+  ))
+}
+
+format_p <- function(p) {
+  ifelse(p < 0.001, "< 0.001", 
+         ifelse(p < 0.01, sprintf("= %.3f", p),
+                sprintf("= %.2f", p)))
+}
+
+create_results_text <- function(model_anova, effect_name) {
+  f_stat <- model_anova$`F value`[1]
+  df1 <- model_anova$NumDF[1]
+  df2 <- round(model_anova$DenDF[1], 1)
+  p_val <- model_anova$`Pr(>F)`[1]
+  
+  sprintf("%s: F(%d, %.1f) = %.2f, p %s", 
+          effect_name, df1, df2, f_stat, format_p(p_val))
+}
+
+
 
 bootstrap_mean <- function(data, indices) {
   sample_data <- data[indices, ]
