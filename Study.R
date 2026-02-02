@@ -298,3 +298,158 @@ p4 <- ggplot(bootstrap_df, aes(x = bootstrap_means)) +
   ) +
   theme_minimal()
 
+library(ggplot2)
+library(ggpattern)
+
+context_counts <- c(163, 230, 190, 171, 38, 28, 14, 220, 8, 89, 69)
+observed <- c(483, 481, 338, 112, 93, 0, 85, 229, 104, 1026, 100)
+total_pauses <- sum(observed)
+total_contexts <- sum(context_counts)
+expected <- total_pauses * (context_counts / total_contexts)
+context_labels <- c("End of NG", "Middle of NG", "End of VG", "Middle of VG", "End of AG", "Middle of AG", "End of PG", "Middle of PG", "End of Clause", "End of Sentence", "End of CG")
+# Perform the permutation-based (Monte Carlo simulated) chi-square test
+set.seed(123)  # For reproducibility
+chi_sq_test <- chisq.test(x = observed, p = context_counts / total_contexts, simulate.p.value = TRUE, B = 9999)
+print(chi_sq_test)
+
+chi_sq_test$residuals
+std_residuals <- chi_sq_test$residuals
+print(std_residuals)
+residuals <- chi_sq_test$residuals
+print(residuals)
+z_scores <- residuals
+# Convert to p-values (two-tailed)
+p_values_per_context <- 2 * (1 - pnorm(abs(z_scores)))
+print(p_values_per_context)
+
+p_values_with_labels <- data.frame(
+  Context = context_labels,
+  P_Value = p_values_per_context
+)
+# Print the p-values with context labels
+print(p_values_with_labels)
+
+p_values_with_labels <- data.frame(
+  Context = context_labels,
+  residuals = residuals
+)
+print(p_values_with_labels)
+
+total_pauses <- sum(observed)
+observed_proportions <- observed / total_pauses
+expected_proportions <- (context_counts / sum(context_counts)) * total_pauses / total_pauses # Normalize to total pauses
+
+df <- data.frame(
+  Context = rep(context_labels, 2),
+  Proportion = c(observed_proportions, expected_proportions),
+  Type = rep(c("Observed", "Expected"), each = length(context_labels))
+)
+
+ggplot(df, aes(x = Context, y = Proportion, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Comparison of Observed vs. Expected Proportions of Pauses",
+    y = "Proportion of Pauses",
+    x = "Syntagmatic Context"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 14, face = "bold"), # Larger and bold x-axis labels
+    axis.text.y = element_text(size = 14, face = "bold"), # Larger and bold y-axis labels
+    axis.title.x = element_text(size = 16, face = "bold"), # Larger and bold x-axis title
+    axis.title.y = element_text(size = 16, face = "bold"), # Larger and bold y-axis title
+    plot.title = element_text(size = 18, face = "bold"), # Larger and bold plot title
+    legend.title = element_blank(), # Remove the legend title
+    legend.text = element_text(size = 12, face = "bold") # Adjust legend text size
+  )
+
+
+context_counts <- c(12, 65, 99, 28, 75, 5, 25, 16, 85, 70, 38, 181, 37, 28, 15, 5, 5, 77, 5, 30, 9, 5, 40, 118, 5, 22, 70, 5, 27, 84, 2, 19, 7, 42, 5, 68, 3, 11, 2, 3)
+context_labels <- c("End of Actor", "End of Attribute", "End of Relational Process", "End of Beneficiary", "End of Circumstantial Adjunct", "End of Carrier", "End of Existent", "End of Existential Process", "End of Goal", "End of Hypotactic Conjunctive Adjunct", "End of Mood Adjunct", "End of Material Process", "End of Mental Process", "End of Paratactic Conjunctive Adjunct", "End of Phenomenon", "End of Receiver", "End of Sayer", "End of Scope", "End of Sensor", "End of Textual Adjunct", "End of Verbal Process", "End of Verbiage", "Middle of Actor", "Middle of Attribute", "Middle of Attributive Process", "Middle of Beneficiary", "Middle of Circumstantial Adjunct", "Middle of Carrier", "Middle of Existent", "Middle of Goal", "Middle of Mood Adjunct", "Middle of Material Process", "Middle of Mental Process", "Middle of Phenomenon", "Middle of Receiver", "Middle of Scope", "Middle of Sensor", "Middle of Textual Adjunct", "Middle of Verbal Process", "Middle of Verbiage")
+observed <- c(53, 234, 22, 65, 290, 71, 38, 14, 260, 
+                +               80, 95, 222, 83, 75, 72, 3, 0, 137, 21, 
+                +               121, 30, 6, 42, 189, 22, 49, 125, 71, 60, 
+                +               163, 20, 63, 20, 66, 0, 117, 12, 8, 12, 16)
+total_contexts <- sum(context_counts)
+expected <- total_pauses * (context_counts / total_contexts)
+
+
+total_pauses <- sum(observed)
+total_contexts <- sum(context_counts)
+expected <- total_pauses * (context_counts / total_contexts)
+
+# Perform the permutation-based (Monte Carlo simulated) chi-square test
+set.seed(123)  # For reproducibility
+chi_sq_test <- chisq.test(x = observed, 
+                          p = context_counts / total_contexts, 
+                          simulate.p.value = TRUE, 
+                          B = 9999)
+
+# Output the results (now with simulated/permutation p-value)
+print(chi_sq_test)
+
+chi_sq_test$residuals
+std_residuals <- chi_sq_test$residuals
+print(std_residuals)
+residuals <- chi_sq_test$residuals
+print(residuals)
+z_scores <- residuals
+# Convert to p-values (two-tailed)
+p_values_per_context <- 2 * (1 - pnorm(abs(z_scores)))
+print(p_values_per_context)
+
+p_values_with_labels <- data.frame(
+  Context = context_labels,
+  P_Value = p_values_per_context
+)
+# Print the p-values with context labels
+print(p_values_with_labels)
+
+p_values_with_labels <- data.frame(
+  Context = context_labels,
+  residuals = residuals
+)
+print(p_values_with_labels)
+
+total_pauses <- sum(observed)
+observed_proportions <- observed / total_pauses
+expected_proportions <- (context_counts / sum(context_counts)) * total_pauses / total_pauses # Normalize to total pauses
+
+df <- data.frame(
+  Context = rep(context_labels, 2),
+  Proportion = c(observed_proportions, expected_proportions),
+  Type = rep(c("Observed", "Expected"), each = length(context_labels))
+)
+
+ggplot(df, aes(x = Context, y = Proportion, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  labs(
+    title = "Comparison of Observed vs. Expected Proportions of Pauses",
+    y = "Proportion of Pauses",
+    x = "Functional Context"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 14, face = "bold"), # Larger and bold x-axis labels
+    axis.text.y = element_text(size = 14, face = "bold"), # Larger and bold y-axis labels
+    axis.title.x = element_text(size = 16, face = "bold"), # Larger and bold x-axis title
+    axis.title.y = element_text(size = 16, face = "bold"), # Larger and bold y-axis title
+    plot.title = element_text(size = 18, face = "bold"), # Larger and bold plot title
+    legend.title = element_blank(), # Remove the legend title
+    legend.text = element_text(size = 12, face = "bold") # Adjust legend text size
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
