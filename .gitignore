@@ -1,18 +1,8 @@
-# R
 .Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
-
-# Generated outputs — figures are committed, tables are not
-output/*.csv
-
-# renv
+output/
 renv/library/
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Logs
 *.log
