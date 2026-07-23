@@ -5,8 +5,7 @@ Statistical analysis of keystroke-logged pauses, examining pause behaviour at st
 *Part of my PhD project at Lund University. 
 Sayyad Mahernia, M. (2026). Pause for thought: Systemic Functional units and the dynamics of writing [Doctoral dissertation, Lund University]. Lund University Publications. https://lup.lub.lu.se/search/publication/f454544b-a7ed-4770-8e82-4c4abc110de1
 
-
-
+Sayyad Mahernia, M. (2026). Syntagmatic and functional context of pauses during writing: A Hallidayan perspective. Written Communication. Advance online publication. https://doi.org/10.1177/07410883261461550
 
 
 ---
