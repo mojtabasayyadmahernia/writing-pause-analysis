@@ -59,3 +59,14 @@ Writes tables to `output/` and figures to `output/figures/`. Seeded, so it repro
 | `data/` | Annotated pause datasets |
 
 **Note:** the frequency counts in `R/04_frequency.R` come from manual annotation of the corpus and can't be derived from the CSV columns, so they're entered in the script as data.
+
+## Interactive dashboard
+
+A Power BI dashboard over the same corpus can be seen in [this link to Power BI](https://app.powerbi.com/links/wI5Pa44z-e?ctid=7aa68094-6104-41a6-b443-d4b52451f617&pbi_source=linkShare&bookmarkGuid=8ff195a8-1b36-4859-9c76-407ca8f9a523), built from
+`export_powerbi.py`. Star schema at pause grain, with syntactic context,
+functional context, writer and process type as dimensions.
+
+![Main observations](powerbi/screenshots/1.jpg)
+![Frequency](powerbi/screenshots/2.jpg)
+![Position & process](powerbi/screenshots/3.jpg)
+![Writers](powerbi/screenshots/4.jpg)
